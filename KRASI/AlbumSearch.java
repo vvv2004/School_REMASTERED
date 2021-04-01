@@ -6,35 +6,46 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class AlbumSearch {
+
+
+
+    //MAIN
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
+
+        //Defining HashMap
         HashMap <String, String> myDict = new HashMap<>();
 
-        myDict.put("Eminem", "Music to be murdered by");
-        myDict.put("Dua Lipa", "Future Nostalgia");
-        myDict.put("Juice Wrld", "Legends never die");
-        myDict.put("Logic", "No pressure");
-        myDict.put("The Weeknd", "After hours");
+        //filling HashMap
+        myDict = fillDict(myDict);
 
         String command = "";
         String input = "";
 
+        System.out.print("Input the command: ");
+
+
+        //This code reads and executes commands
         while(!command.equals("stop")){
             command = scan.next();
 
-
+            //checks what the command is
             switch (command){
-                case "performer":
-                    System.out.print("Input the performer: ");
-                    input = scan.nextLine();
-                    System.out.printf("The latest album of %s is %s", input, searchPerformerInDict(input, myDict));
+                case "artist":
+                    System.out.print("Input the artist: ");
+                    searchAlbumInDict(myDict);
+                    System.out.println();
                     break;
 
                 case "album":
                     System.out.print("Input the album: ");
-                    input = scan.nextLine();
-                    System.out.printf("The album \"%s\" is made by %s", input, searchAlbumInDict(input, myDict));
+                    searchArtistInDict(myDict);
+                    System.out.println();
+                    break;
+
+                case "stop":
+                    //Does nothing
                     break;
 
                 default:
@@ -42,29 +53,70 @@ public class AlbumSearch {
             }
         }
     }
+    //END OF MAIN
 
-    public static String searchPerformerInDict(String key, HashMap<String, String> Dict){
+
+
+
+    //Filling array
+    public static HashMap<String, String> fillDict (HashMap<String, String> myDict){
+
+        myDict.put("Eminem", "Music to be murdered by");
+        myDict.put("Dua Lipa", "Future Nostalgia");
+        myDict.put("Juice Wrld", "Legends never die");
+        myDict.put("Logic", "No pressure");
+        myDict.put("The Weeknd", "After hours");
+
+        return myDict;
+    }
+
+
+
+
+    //Searches by album by artist
+    public static void searchAlbumInDict(HashMap<String, String> Dict){
         try {
+            Scanner scan = new Scanner(System.in);
+
+            String key = scan.nextLine();
             String result = Dict.get(key);
 
-            return result;
+            System.out.println("The latest album of %s is \"%s\" ");
         }catch (Exception e){
             System.out.println("This album is not in the data base");
         }
 
-        return "";
+
     }
 
-    public static String searchAlbumInDict(String album, HashMap<String, String> Dict){
-        String result = "";
 
-        for(Map.Entry<String, String> items : Dict.entrySet()){
-            if(album.equals(items.getValue())){
-                result = items.getValue();
+
+
+    //Searches artist by album
+    public static void searchArtistInDict(HashMap<String, String> Dict){
+        Scanner scan = new Scanner(System.in);
+
+
+        try {
+            String album = scan.nextLine();
+
+            String result = "";
+
+
+            //For-each loop
+            for (Map.Entry<String, String> items : Dict.entrySet()) {
+
+                //IF the value of the key is equal to the input, print the key
+                if (album.equals(items.getValue())) {
+                    result = items.getKey();
+                }
             }
+
+            System.out.printf("The album \"%s\" is made by %s ", album, result);
+
+
+        }catch (Exception e){
+            System.out.println("The album %s isn't contained in the list");
         }
-
-
-        return result;
     }
 }

@@ -48,8 +48,4 @@ public class Dictionaries {
 
         System.out.println("\nNew size of dict : " + myDictionary.size());
     }
-
-
-
-
 }
